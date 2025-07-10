@@ -1,164 +1,523 @@
-import { Suspense } from 'react';
-import Image from 'next/image';
+'use client';
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  Send,
+  Users,
+  BarChart3,
+  Zap,
+  CheckCircle,
+  Star,
+  ArrowRight,
+  Mail,
+  MessageSquare,
+  Target,
+  Clock,
+  Shield,
+  Globe,
+} from 'lucide-react';
 
-import { Link } from '@repo/api/links/entities/link.entity';
+const HomePage = () => {
+  const features = [
+    {
+      icon: Mail,
+      title: 'Email Campaigns',
+      description:
+        'Drag-and-drop editor with responsive templates and HTML editing capabilities',
+    },
+    {
+      icon: MessageSquare,
+      title: 'SMS Marketing',
+      description:
+        'Direct text messaging with personalization and compliance features',
+    },
+    {
+      icon: Users,
+      title: 'Contact Management',
+      description:
+        'Import contacts, create segments, and build opt-in forms effortlessly',
+    },
+    {
+      icon: Target,
+      title: 'Smart Automation',
+      description:
+        'Trigger-based campaigns, drip sequences, and perfect timing',
+    },
+    {
+      icon: BarChart3,
+      title: 'Analytics Dashboard',
+      description: 'Track opens, clicks, deliveries, and campaign performance',
+    },
+    {
+      icon: Zap,
+      title: 'AI-Powered',
+      description:
+        'Generate subject lines, optimize send times, and A/B test campaigns',
+    },
+  ];
 
-import { Card } from '@repo/ui/card';
-import { Code } from '@repo/ui/code';
-import { Button } from '@repo/ui/button';
+  const plans = [
+    {
+      name: 'Starter',
+      price: '$29',
+      description: 'Perfect for small businesses getting started',
+      features: [
+        'Up to 1,000 contacts',
+        '5,000 emails/month',
+        '500 SMS credits',
+        'Basic templates',
+        'Email support',
+      ],
+      popular: false,
+    },
+    {
+      name: 'Growth',
+      price: '$79',
+      description: 'Ideal for growing businesses',
+      features: [
+        'Up to 10,000 contacts',
+        '50,000 emails/month',
+        '2,000 SMS credits',
+        'Advanced templates',
+        'Automation workflows',
+        'A/B testing',
+        'Priority support',
+      ],
+      popular: true,
+    },
+    {
+      name: 'Pro',
+      price: '$199',
+      description: 'For established businesses',
+      features: [
+        'Unlimited contacts',
+        'Unlimited emails',
+        '10,000 SMS credits',
+        'Custom templates',
+        'Advanced analytics',
+        'API access',
+        'White-label options',
+        'Dedicated support',
+      ],
+      popular: false,
+    },
+  ];
 
-import styles from './page.module.css';
+  const testimonials = [
+    {
+      name: 'Sarah Chen',
+      role: 'Marketing Director',
+      company: 'TechStart Inc.',
+      content:
+        'Unified Marketing transformed our email marketing. Open rates increased 40% and our SMS campaigns are converting like crazy!',
+      rating: 5,
+    },
+    {
+      name: 'Mike Rodriguez',
+      role: 'E-commerce Owner',
+      company: 'Urban Threads',
+      content:
+        'The automation features saved us hours every week. Our abandoned cart recovery alone pays for the entire platform.',
+      rating: 5,
+    },
+    {
+      name: 'Emily Johnson',
+      role: 'Creative Director',
+      company: 'Bloom Agency',
+      content:
+        'Beautiful templates, intuitive interface, and the AI suggestions are spot-on. Our clients love the results.',
+      rating: 5,
+    },
+  ];
 
-const Gradient = ({
-  conic,
-  className,
-  small,
-}: Readonly<{
-  small?: boolean;
-  conic?: boolean;
-  className?: string;
-}>) => {
   return (
-    <span
-      className={[
-        styles.gradient,
-        conic ? styles.glowConic : undefined,
-        small ? styles.gradientSmall : styles.gradientLarge,
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
-    />
-  );
-};
-
-const LinksSection = async () => {
-  const fetchLinks = async (): Promise<Link[]> => {
-    try {
-      return await (await fetch('http://localhost:3000/links')).json();
-    } catch (_) {
-      return [];
-    }
-  };
-
-  const links = await fetchLinks();
-
-  return (
-    <div className={styles.grid}>
-      {links.map(({ title, url, description }) => (
-        <Card className={styles.card} href={url} key={title} title={title}>
-          {description}
-        </Card>
-      ))}
-    </div>
-  );
-};
-
-const LinksSectionForTest = () => {
-  return (
-    <div className={styles.grid}>
-      <Card className={styles.card} href={'url'} title={'title'}>
-        description
-      </Card>
-    </div>
-  );
-};
-
-const RootPage = ({ params }: { params: { forTest?: boolean } }) => {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          examples/<Code className={styles.code}>with-nestjs</Code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-turbo&utm_medium=basic&utm_campaign=create-turbo"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            By{' '}
-            <Image
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              height={24}
-              priority
-              src="/vercel.svg"
-              width={100}
-            />
-          </a>
-        </div>
-      </div>
-
-      <Button appName="web (with-nestjs)" className={styles.button}>
-        Click me!
-      </Button>
-
-      <div className={styles.hero}>
-        <div className={styles.heroContent}>
-          <div className={styles.logos}>
-            <div className={styles.circles}>
-              <Image
-                alt=""
-                height={614}
-                src="circles.svg"
-                width={614}
-                style={{ pointerEvents: 'none' }}
-              />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+      {/* Header */}
+      <header className="relative bg-white/80 backdrop-blur-xl border-b border-gray-200/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-6">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+                <Send className="h-5 w-5 text-white" />
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                Unified Marketing
+              </span>
             </div>
-            <div className={styles.logoGradientContainer}>
-              <Gradient className={styles.logoGradient} conic small />
-            </div>
-
-            <div className={styles.logo}>
-              <Image
-                alt="Turborepo"
-                height={120}
-                priority
-                src="turborepo.svg"
-                width={120}
-                style={{ pointerEvents: 'none' }}
-              />
+            <div className="flex items-center space-x-4">
+              <nav className="hidden md:flex space-x-8">
+                <a
+                  href="#features"
+                  className="text-gray-600 hover:text-purple-600 transition-colors"
+                >
+                  Features
+                </a>
+                <a
+                  href="#pricing"
+                  className="text-gray-600 hover:text-purple-600 transition-colors"
+                >
+                  Pricing
+                </a>
+                <a
+                  href="#testimonials"
+                  className="text-gray-600 hover:text-purple-600 transition-colors"
+                >
+                  Reviews
+                </a>
+              </nav>
+              <Button
+                variant="outline"
+                onClick={() => (window.location.href = '/dashboard')}
+              >
+                Sign In
+              </Button>
+              <Button
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                onClick={() => (window.location.href = '/dashboard')}
+              >
+                Get Started
+              </Button>
             </div>
           </div>
+        </div>
+      </header>
 
-          <Gradient className={styles.backgroundGradient} conic />
+      {/* Hero Section */}
+      <section className="relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+              Grow Your Business with
+              <span className="block bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                Smart Marketing
+              </span>
+            </h1>
+            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+              Send beautiful email campaigns and SMS messages that convert. Our
+              AI-powered platform helps small businesses and creators reach
+              their audience effectively.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-lg px-8 py-3"
+                onClick={() => (window.location.href = '/dashboard')}
+              >
+                Start Free Trial
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button size="lg" variant="outline" className="text-lg px-8 py-3">
+                Watch Demo
+              </Button>
+            </div>
+            <p className="text-sm text-gray-500 mt-4">
+              No credit card required • 14-day free trial • Cancel anytime
+            </p>
+          </div>
+        </div>
 
-          <div className={styles.turborepoWordmarkContainer}>
-            <svg
-              className={styles.turborepoWordmark}
-              viewBox="0 0 506 50"
-              width={200}
-              xmlns="http://www.w3.org/2000/svg"
+        {/* Floating Elements */}
+        <div className="absolute top-20 left-10 animate-bounce delay-1000">
+          <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full opacity-20"></div>
+        </div>
+        <div className="absolute top-32 right-20 animate-bounce delay-500">
+          <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-green-400 rounded-full opacity-30"></div>
+        </div>
+        <div className="absolute bottom-20 left-1/4 animate-bounce delay-700">
+          <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-purple-400 rounded-full opacity-25"></div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="py-24 bg-white/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Everything you need to succeed
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Powerful features designed to help you create, send, and track
+              campaigns that drive real results.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature, index) => {
+              const Icon = feature.icon;
+              return (
+                <Card
+                  key={index}
+                  className="group hover:shadow-xl transition-all duration-300 bg-white/80 backdrop-blur-sm border-gray-200/50 hover:border-purple-300"
+                >
+                  <CardHeader>
+                    <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <Icon className="h-6 w-6 text-white" />
+                    </div>
+                    <CardTitle className="text-xl">{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-gray-600">
+                      {feature.description}
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Simple, transparent pricing
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Choose the perfect plan for your business. All plans include our
+              core features with no hidden fees.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {plans.map((plan, index) => (
+              <Card
+                key={index}
+                className={`relative hover:shadow-xl transition-all duration-300 ${
+                  plan.popular
+                    ? 'ring-2 ring-purple-600 scale-105 bg-gradient-to-b from-white to-purple-50'
+                    : 'bg-white/80 backdrop-blur-sm'
+                }`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <span className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium">
+                      Most Popular
+                    </span>
+                  </div>
+                )}
+                <CardHeader className="text-center">
+                  <CardTitle className="text-2xl">{plan.name}</CardTitle>
+                  <div className="text-4xl font-bold text-gray-900 mb-2">
+                    {plan.price}
+                    <span className="text-lg font-normal text-gray-600">
+                      /month
+                    </span>
+                  </div>
+                  <CardDescription>{plan.description}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <ul className="space-y-3">
+                    {plan.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-center">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
+                        <span className="text-gray-700">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Button
+                    className={`w-full ${
+                      plan.popular
+                        ? 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700'
+                        : 'bg-gray-900 hover:bg-gray-800'
+                    }`}
+                    onClick={() => (window.location.href = '/dashboard')}
+                  >
+                    Get Started
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section id="testimonials" className="py-24 bg-white/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Loved by thousands of businesses
+            </h2>
+            <p className="text-xl text-gray-600">
+              See what our customers have to say about Unified Marketing
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <Card
+                key={index}
+                className="bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-300"
+              >
+                <CardContent className="pt-6">
+                  <div className="flex mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="h-5 w-5 text-yellow-400 fill-current"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-gray-700 mb-6 italic">
+                    "{testimonial.content}"
+                  </p>
+                  <div>
+                    <p className="font-semibold text-gray-900">
+                      {testimonial.name}
+                    </p>
+                    <p className="text-sm text-gray-600">{testimonial.role}</p>
+                    <p className="text-sm text-purple-600">
+                      {testimonial.company}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 bg-gradient-to-r from-purple-600 to-blue-600">
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-white mb-4">
+            Ready to grow your business?
+          </h2>
+          <p className="text-xl text-purple-100 mb-8">
+            Join thousands of businesses using Unified Marketing to reach their
+            customers and drive growth.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button
+              size="lg"
+              className="bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-3"
+              onClick={() => (window.location.href = '/dashboard')}
             >
-              <title>Turborepo logo</title>
-              <path d="M53.7187 12.0038V1.05332H0.945312V12.0038H20.8673V48.4175H33.7968V12.0038H53.7187Z" />
-              <path d="M83.5362 49.1431C99.764 49.1431 108.67 40.8972 108.67 27.3081V1.05332H95.7401V26.0547C95.7401 33.6409 91.7821 37.9287 83.5362 37.9287C75.2904 37.9287 71.3324 33.6409 71.3324 26.0547V1.05332H58.4029V27.3081C58.4029 40.8972 67.3084 49.1431 83.5362 49.1431Z" />
-              <path d="M128.462 32.7174H141.325L151.484 48.4175H166.327L154.848 31.3321C161.313 29.0232 165.271 23.8778 165.271 16.8853C165.271 6.72646 157.685 1.05332 146.141 1.05332H115.532V48.4175H128.462V32.7174ZM128.462 22.4925V11.8719H145.481C150.033 11.8719 152.54 13.8509 152.54 17.2152C152.54 20.3816 150.033 22.4925 145.481 22.4925H128.462Z" />
-              <path d="M171.287 48.4175H205.128C215.683 48.4175 221.752 43.404 221.752 35.0262C221.752 29.419 218.189 25.593 213.967 23.8778C216.87 22.4925 220.432 19.1942 220.432 13.9828C220.432 5.60502 214.495 1.05332 204.006 1.05332H171.287V48.4175ZM183.689 19.59V11.542H202.687C206.249 11.542 208.228 12.9273 208.228 15.566C208.228 18.2047 206.249 19.59 202.687 19.59H183.689ZM183.689 29.2871H203.875C207.371 29.2871 209.284 31.0022 209.284 33.5749C209.284 36.1476 207.371 37.8628 203.875 37.8628H183.689V29.2871Z" />
-              <path d="M253.364 0.261719C236.806 0.261719 224.866 10.6185 224.866 24.7354C224.866 38.8523 236.806 49.2091 253.364 49.2091C269.922 49.2091 281.796 38.8523 281.796 24.7354C281.796 10.6185 269.922 0.261719 253.364 0.261719ZM253.364 11.4761C262.072 11.4761 268.602 16.6215 268.602 24.7354C268.602 32.8493 262.072 37.9947 253.364 37.9947C244.656 37.9947 238.126 32.8493 238.126 24.7354C238.126 16.6215 244.656 11.4761 253.364 11.4761Z" />
-              <path d="M300.429 32.7174H313.292L323.451 48.4175H338.294L326.815 31.3321C333.28 29.0232 337.238 23.8778 337.238 16.8853C337.238 6.72646 329.652 1.05332 318.108 1.05332H287.499V48.4175H300.429V32.7174ZM300.429 22.4925V11.8719H317.448C322 11.8719 324.507 13.8509 324.507 17.2152C324.507 20.3816 322 22.4925 317.448 22.4925H300.429Z" />
-              <path d="M343.254 1.05332V48.4175H389.299V37.467H355.92V29.7489H385.539V19.0622H355.92V12.0038H389.299V1.05332H343.254Z" />
-              <path d="M408.46 33.3111H425.677C437.221 33.3111 444.807 27.7699 444.807 17.2152C444.807 6.59453 437.221 1.05332 425.677 1.05332H395.53V48.4175H408.46V33.3111ZM408.46 22.5585V11.8719H424.951C429.569 11.8719 432.076 13.8509 432.076 17.2152C432.076 20.5135 429.569 22.5585 424.951 22.5585H408.46Z" />
-              <path d="M476.899 0.261719C460.341 0.261719 448.401 10.6185 448.401 24.7354C448.401 38.8523 460.341 49.2091 476.899 49.2091C493.456 49.2091 505.33 38.8523 505.33 24.7354C505.33 10.6185 493.456 0.261719 476.899 0.261719ZM476.899 11.4761C485.606 11.4761 492.137 16.6215 492.137 24.7354C492.137 32.8493 485.606 37.9947 476.899 37.9947C468.191 37.9947 461.66 32.8493 461.66 24.7354C461.66 16.6215 468.191 11.4761 476.899 11.4761Z" />
-            </svg>
+              Start Your Free Trial
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-white text-white hover:bg-white/10 text-lg px-8 py-3"
+            >
+              Schedule Demo
+            </Button>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/**
-       * @note Unsupported async component testing.
-       * Should limit the following constrain for a specific environment (dev or testing).
-       *
-       * @see https://nextjs.org/docs/app/building-your-application/testing/jest
-       */}
-      {params.forTest ? (
-        <LinksSectionForTest />
-      ) : (
-        <Suspense fallback={'Loading links...'}>{<LinksSection />}</Suspense>
-      )}
-    </main>
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+                  <Send className="h-5 w-5 text-white" />
+                </div>
+                <span className="text-xl font-bold">Unified Marketing</span>
+              </div>
+              <p className="text-gray-400">
+                The complete marketing platform for small businesses and
+                creators.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-4">Product</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Features
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Pricing
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Integrations
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    API
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-4">Company</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    About
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Blog
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Careers
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-4">Support</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Help Center
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Documentation
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Status
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Privacy
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>
+              &copy; {new Date().getFullYear()} Unified Marketing. All rights
+              reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 };
 
-export default RootPage;
+export default HomePage;
